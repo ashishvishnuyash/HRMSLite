@@ -25,7 +25,12 @@ SECRET_KEY = "django-insecure-52b=-48tu5h6p@w4w$9#55l^7a2ml9r*9lt#-(q*3227@jm)6_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "hrmslite-ikpp.onrender.com",
+    ".onrender.com",
+]
 
 
 # Application definition
