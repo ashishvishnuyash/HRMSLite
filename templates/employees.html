@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Employees - HRMS Lite{% endblock %}
+{% block content %}
+<h1 class="mb-4">Employee Management</h1>
+
+<div class="card border-secondary bg-dark mb-4">
+  <div class="card-body">
+    <h5 class="card-title mb-3">Add Employee</h5>
+    <form id="employee-form" class="row g-3" style="max-width: 32rem;">
+      <div class="col-12">
+        <label for="employee_id" class="form-label">Employee ID <span class="text-danger">*</span></label>
+        <input type="text" class="form-control bg-dark border-secondary text-body" id="employee_id" name="employee_id" required maxlength="32" placeholder="e.g. EMP001">
+      </div>
+      <div class="col-12">
+        <label for="full_name" class="form-label">Full Name <span class="text-danger">*</span></label>
+        <input type="text" class="form-control bg-dark border-secondary text-body" id="full_name" name="full_name" required maxlength="120" placeholder="e.g. John Doe">
+      </div>
+      <div class="col-12">
+        <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+        <input type="email" class="form-control bg-dark border-secondary text-body" id="email" name="email" required placeholder="e.g. john@example.com">
+      </div>
+      <div class="col-12">
+        <label for="department" class="form-label">Department <span class="text-danger">*</span></label>
+        <input type="text" class="form-control bg-dark border-secondary text-body" id="department" name="department" required maxlength="80" placeholder="e.g. Engineering">
+      </div>
+      <div id="form-error" class="col-12 alert alert-danger py-2 d-none" role="alert"></div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-info text-dark">Add Employee</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="card border-secondary bg-dark">
+  <div class="card-body">
+    <h5 class="card-title mb-3">All Employees</h5>
+
+    <div id="employees-loading" class="text-center py-5">
+      <div class="spinner-border text-info" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2 text-body-secondary">Loading employees...</p>
+    </div>
+
+    <div id="employees-error" class="alert alert-danger text-center d-none" role="alert">
+      <p class="mb-2 error-msg"></p>
+      <button type="button" class="btn btn-outline-danger btn-sm" onclick="loadEmployees()">Retry</button>
+    </div>
+
+    <div id="employees-empty" class="alert alert-secondary text-center d-none" role="status">
+      No employees yet. Add your first employee above.
+    </div>
+
+    <div id="employees-content" class="table-responsive d-none">
+      <table class="table table-dark table-hover table-striped align-middle">
+        <thead class="table-secondary">
+          <tr>
+            <th>Employee ID</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Present Days</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="employees-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'js/employees.js' %}"></script>
+{% endblock %}

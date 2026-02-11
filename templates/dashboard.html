@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Dashboard - HRMS Lite{% endblock %}
+{% block content %}
+<h1 class="mb-4">Dashboard</h1>
+
+<div id="dashboard-loading" class="text-center py-5">
+  <div class="spinner-border text-info" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <p class="mt-2 text-body-secondary">Loading summary...</p>
+</div>
+
+<div id="dashboard-error" class="alert alert-danger text-center d-none" role="alert">
+  <p class="mb-2 error-msg"></p>
+  <button type="button" class="btn btn-outline-danger btn-sm" onclick="loadSummary()">Retry</button>
+</div>
+
+<div id="dashboard-content" class="row g-3 mb-4 d-none">
+  <div class="col-sm-6 col-lg-3">
+    <div class="card h-100 border-secondary bg-dark">
+      <div class="card-body">
+        <h6 class="card-subtitle mb-2 text-body-secondary">Total Employees</h6>
+        <p id="stat-employees" class="card-title display-6 text-info mb-0">0</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-lg-3">
+    <div class="card h-100 border-secondary bg-dark">
+      <div class="card-body">
+        <h6 class="card-subtitle mb-2 text-body-secondary">Attendance Marked Today</h6>
+        <p id="stat-marked" class="card-title display-6 text-info mb-0">0</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-lg-3">
+    <div class="card h-100 border-secondary bg-dark">
+      <div class="card-body">
+        <h6 class="card-subtitle mb-2 text-body-secondary">Present Today</h6>
+        <p id="stat-present" class="card-title display-6 text-success mb-0">0</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-lg-3">
+    <div class="card h-100 border-secondary bg-dark">
+      <div class="card-body">
+        <h6 class="card-subtitle mb-2 text-body-secondary">Absent Today</h6>
+        <p id="stat-absent" class="card-title display-6 text-danger mb-0">0</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="dashboard-empty" class="alert alert-secondary text-center d-none" role="status">
+  No data yet. Add employees and mark attendance to see your dashboard.
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}
