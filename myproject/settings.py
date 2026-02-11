@@ -14,9 +14,27 @@ import os
 from pathlib import Path
 
 import dj_database_url
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load .env from project root (for local DATABASE_URL)
+_env_file = BASE_DIR / ".env"
+try:
+    from dotenv import load_dotenv
+    load_dotenv(str(_env_file))
+except ImportError:
+    if _env_file.exists():
+        with open(_env_file) as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    key, _, value = line.partition("=")
+                    key, value = key.strip(), value.strip().strip("'\"").strip()
+                    if key == "DATABASE_URL":
+                        os.environ[key] = value
+                        break
 
 
 # Quick-start development settings - unsuitable for production
@@ -78,22 +96,20 @@ TEMPLATES = [
 WSGI_APPLICATION = "myproject.wsgi.application"
 
 
-# Database
+# Database – PostgreSQL only (set DATABASE_URL in env or .env)
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-# On Render, set DATABASE_URL (e.g. from a PostgreSQL service) so data persists.
+
+if not os.environ.get("DATABASE_URL"):
+    raise ImproperlyConfigured(
+        "Set DATABASE_URL (e.g. PostgreSQL). Locally: add DATABASE_URL to .env in project root."
+    )
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
-
-if os.environ.get("DATABASE_URL"):
-    DATABASES["default"] = dj_database_url.config(
+    "default": dj_database_url.config(
         conn_max_age=600,
         conn_health_checks=True,
     )
+}
 
 
 # Password validation
